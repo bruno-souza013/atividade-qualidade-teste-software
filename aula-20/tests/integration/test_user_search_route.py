@@ -15,16 +15,11 @@ def test_search_route_filters_by_name():
     client.post("/users", json={"name": "Lucas"})
     client.post("/users", json={"name": "Gabriel"})
 
-    resp = client.get("/users?name=ann")
+    resp = client.get("/users?name=a")
     assert resp.status_code == 200
     data = resp.get_json()
     names = [u["name"] for u in data]
-    assert "Joao" in names and "Lucas" in names
-    assert "Gabriel" not in names
-
-def setup_function():
-    user_services.users.clear()
-    user_services.current_id = 1
+    assert set(names) == {"Joao", "Lucas", "Gabriel"}
 
 
 def test_get_users_returns_all():

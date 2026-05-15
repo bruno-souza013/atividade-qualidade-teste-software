@@ -35,8 +35,8 @@ def test_user_flow(client):
 
 
 def test_list_users(client):
-    client.post("/users", json={"name": "User11"})
-    client.post("/users", json={"name": "User22"})
+    client.post("/users", json={"name": "User111"})
+    client.post("/users", json={"name": "User222"})
 
     response = client.get("/users")
 
@@ -57,6 +57,7 @@ def test_list_three_users(client):
 
     assert response.status_code == 200
     assert len(data) == 3
+
 
 def test_should_return_400_when_user_already_exists(client):
     client.post("/users", json={"name": "Maylon"})
