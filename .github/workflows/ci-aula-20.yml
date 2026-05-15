@@ -1,0 +1,42 @@
+name: CI - aula-20
+
+on:
+  push:
+    paths:
+      - 'aula-20/**'
+  pull_request:
+    paths:
+      - 'aula-20/**'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configura Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Instala dependencias e faz upgrade no pip
+        working-directory: aula-20
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Roda black
+        working-directory: aula-20
+        run: |
+          black --version
+          black --check .
+
+      - name: Roda flake8
+        working-directory: aula-20
+        run: |
+          flake8 .
+
+      - name: Roda tests
+        working-directory: aula-20
+        run: |
+          pytest
