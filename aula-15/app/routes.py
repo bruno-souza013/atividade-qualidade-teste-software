@@ -4,7 +4,7 @@ main = Blueprint("main", __name__)
 
 
 @main.route("/status", methods=["GET"])
-def health_check():
+def helth_check():
     return jsonify({"status": "ok"})
 
 
