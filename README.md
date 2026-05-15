@@ -1,6 +1,6 @@
 # Tarefa 2.1 — Qualidade e Testes de Software
 
-Este repositório reúne as atividades das aulas 15..20 e contém a implementação de uma API Flask, testes automatizados e pipelines CI conforme solicitado na atividade.
+Este repositório reúne as atividades das aulas 15-20 e contém a implementação de uma API Flask, testes automatizados e pipelines CI conforme solicitado na atividade.
 
 **Aulas incluídas**
 - Aula 15 — API com Flask + Qualidade de Software
@@ -89,7 +89,7 @@ Existem workflows configurados para a aula 16 e 20 em:
 
 Ambos rodam `pytest`, `flake8` e `black --check` a cada push/PR que altere a pasta correspondente.
 
-Evidência de TDD (descrita)
+Evidência de TDD
 --------------------------------
 Observação: não há prints nem commits anexados neste repositório; abaixo descrevo, em texto, o ciclo RED → GREEN → REFACTOR realizado para implementar `search_users`.
 
