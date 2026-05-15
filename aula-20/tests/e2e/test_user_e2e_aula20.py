@@ -3,7 +3,17 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException
 import requests
+
+
+def text_in_list(driver, text):
+    """Verifica se 'text' aparece em algum <li>, ignorando StaleElementReferenceException."""
+    try:
+        items = driver.find_elements(By.TAG_NAME, "li")
+        return any(text in li.text for li in items)
+    except StaleElementReferenceException:
+        return False
 
 
 def get_driver():
@@ -39,11 +49,7 @@ def test_create_two_users_e2e():
         name_input.send_keys("Usuario1")
         driver.find_element(By.ID, "submit").click()
 
-        wait.until(
-            lambda d: any(
-                "Usuario1" in li.text for li in d.find_elements(By.TAG_NAME, "li")
-            )
-        )
+        wait.until(lambda d: text_in_list(d, "Usuario1"))
 
         assert any(
             "Usuario1" in li.text for li in driver.find_elements(By.TAG_NAME, "li")
@@ -55,11 +61,7 @@ def test_create_two_users_e2e():
         name_input.send_keys("Usuario2")
         driver.find_element(By.ID, "submit").click()
 
-        wait.until(
-            lambda d: any(
-                "Usuario2" in li.text for li in d.find_elements(By.TAG_NAME, "li")
-            )
-        )
+        wait.until(lambda d: text_in_list(d, "Usuario2"))
 
         # busca todos e valida os dois
         items = driver.find_elements(By.TAG_NAME, "li")
@@ -89,11 +91,7 @@ def test_initially_no_users_then_create_one_ui():
         name_input.send_keys("João")
         driver.find_element(By.ID, "submit").click()
 
-        wait.until(
-            lambda d: any(
-                "João" in li.text for li in d.find_elements(By.TAG_NAME, "li")
-            )
-        )
+        wait.until(lambda d: text_in_list(d, "João"))
 
         items = driver.find_elements(By.TAG_NAME, "li")
         texts = [i.text for i in items]
@@ -114,22 +112,14 @@ def test_api_created_user_shown_then_add_second_via_ui():
         driver.get("http://localhost:5000")
 
         wait = WebDriverWait(driver, 5)
-        wait.until(
-            lambda d: any(
-                "Maria" in li.text for li in d.find_elements(By.TAG_NAME, "li")
-            )
-        )
+        wait.until(lambda d: text_in_list(d, "Maria"))
 
         name_input = driver.find_element(By.ID, "name")
         name_input.clear()
         name_input.send_keys("Lucas")
         driver.find_element(By.ID, "submit").click()
 
-        wait.until(
-            lambda d: any(
-                "Lucas" in li.text for li in d.find_elements(By.TAG_NAME, "li")
-            )
-        )
+        wait.until(lambda d: text_in_list(d, "Lucas"))
 
         items = driver.find_elements(By.TAG_NAME, "li")
         texts = [i.text for i in items]

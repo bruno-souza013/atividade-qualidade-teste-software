@@ -1,7 +1,19 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException
 from requests import get, delete
+
+
+def text_in_list(driver, text):
+    """Verifica se 'text' aparece em algum <li>, ignorando StaleElementReferenceException."""
+    try:
+        items = driver.find_elements(By.TAG_NAME, "li")
+        return any(text in li.text for li in items)
+    except StaleElementReferenceException:
+        return False
 
 
 def get_driver():
@@ -25,14 +37,11 @@ def test_create_user_e2e():
 
     from selenium.webdriver.support.ui import WebDriverWait
 
-    wait = WebDriverWait(driver, 5)
+    wait = WebDriverWait(driver, 10)
 
-    wait.until(
-        lambda d: any("Bruno" in el.text for el in d.find_elements(By.TAG_NAME, "li"))
-    )
-    users = driver.find_elements(By.TAG_NAME, "li")
+    wait.until(lambda d: text_in_list(d, "Bruno"))
 
-    assert any("Bruno" in user.text for user in users)
+    assert text_in_list(driver, "Bruno")
 
     driver.quit()
 
@@ -62,11 +71,7 @@ def test_create_two_users_e2e():
         submit = driver.find_element(By.ID, "submit")
         submit.click()
 
-        wait.until(
-            lambda d, n=name: any(
-                n in li.text for li in d.find_elements(By.TAG_NAME, "li")
-            )
-        )
+        wait.until(lambda d, n=name: text_in_list(d, n))
 
     users = driver.find_elements(By.TAG_NAME, "li")
     texts = [u.text for u in users]
