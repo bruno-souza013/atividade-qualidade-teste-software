@@ -52,7 +52,7 @@ def test_update_user_success(client):
 
     user_id = response.get_json()["id"]
 
-    response = client.put(f"/users/{user_id}", json={"name": "Lopes"})
+    response = client.put(f"/users/{user_id}", json={"name": "Souza"})
 
     assert response.status_code == 200
-    assert response.get_json()["name"] == "Lopes"
+    assert response.get_json()["name"] == "Souza"
