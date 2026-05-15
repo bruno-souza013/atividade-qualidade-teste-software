@@ -35,7 +35,7 @@ def test_user_flow(client):
 
 
 def test_list_users(client):
-    client.post("/users", json={"name": "User1"})
+    client.post("/users", json={"name": "User11"})
     client.post("/users", json={"name": "User2"})
 
     response = client.get("/users")
