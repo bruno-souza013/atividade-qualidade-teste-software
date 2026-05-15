@@ -65,6 +65,6 @@ def test_search_strip_whitespace():
 
 
 def test_search_special_characters():
-    user_services.create_user({"name": "Souza --"})
-    results = user_services.search_users("Souza --")
+    user_services.create_user({"name": "Souza $$"})
+    results = user_services.search_users("Souza $$")
     assert len(results) == 1
