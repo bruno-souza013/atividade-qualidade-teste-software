@@ -36,6 +36,18 @@ jobs:
         run: |
           flake8 .
 
+      - name: Start Flask server
+        working-directory: aula-20
+        run: |
+          nohup python run.py > server.log 2>&1 &
+          for i in {1..30}; do
+            if curl -sSf http://127.0.0.1:5000/ >/dev/null 2>&1; then
+              echo "server up"
+              break
+            fi
+            echo "waiting for server..."
+            sleep 1
+          done
       - name: Roda tests
         working-directory: aula-20
         env:
