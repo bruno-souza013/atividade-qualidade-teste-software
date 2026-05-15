@@ -38,5 +38,7 @@ jobs:
 
       - name: Roda tests
         working-directory: aula-20
+        env:
+          PYTHONPATH: ${{ github.workspace }}/aula-20
         run: |
-          pytest
+          python -m pytest -q
