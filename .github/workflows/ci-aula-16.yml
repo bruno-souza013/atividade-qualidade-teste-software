@@ -42,5 +42,7 @@ jobs:
 
       - name: Rodar testes
         working-directory: aula-16
+        env:
+          PYTHONPATH: .
         run: |
           pytest
