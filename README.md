@@ -91,7 +91,7 @@ Ambos rodam `pytest`, `flake8` e `black --check` a cada push/PR que altere a pas
 
 Evidência de TDD
 --------------------------------
-Observação: não há prints nem commits anexados neste repositório; abaixo descrevo, em texto, o ciclo RED → GREEN → REFACTOR realizado para implementar `search_users`.
+Ciclo RED → GREEN → REFACTOR realizado para implementar `search_users`.
 
 1) RED — adicionar testes que falham
 	- Arquivos de teste criados com comportamento esperado (falhavam inicialmente):
