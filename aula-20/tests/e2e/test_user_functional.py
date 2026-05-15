@@ -1,10 +1,19 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from requests import get, delete
 
 
+def get_driver():
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    return webdriver.Chrome(options=options)
+
+
 def test_create_user_e2e():
-    driver = webdriver.Chrome()
+    driver = get_driver()
 
     driver.get("http://localhost:5000")
 
@@ -35,7 +44,7 @@ def test_create_two_users_e2e():
     for u in resp.json():
         delete(f"http://localhost:5000/users/{u['id']}")
 
-    driver = webdriver.Chrome()
+    driver = get_driver()
 
     driver.get("http://localhost:5000")
 

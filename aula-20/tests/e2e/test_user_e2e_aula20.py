@@ -1,8 +1,17 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import requests
+
+
+def get_driver():
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    return webdriver.Chrome(options=options)
 
 
 def reset_server():
@@ -15,7 +24,7 @@ def reset_server():
 def test_create_two_users_e2e():
     reset_server()
 
-    driver = webdriver.Chrome()
+    driver = get_driver()
     try:
         driver.get("http://localhost:5000")
 
@@ -64,7 +73,7 @@ def test_create_two_users_e2e():
 def test_initially_no_users_then_create_one_ui():
     reset_server()
 
-    driver = webdriver.Chrome()
+    driver = get_driver()
     try:
         driver.get("http://localhost:5000")
 
@@ -100,7 +109,7 @@ def test_api_created_user_shown_then_add_second_via_ui():
     resp = requests.post("http://localhost:5000/users", json={"name": "Maria"})
     assert resp.status_code == 201
 
-    driver = webdriver.Chrome()
+    driver = get_driver()
     try:
         driver.get("http://localhost:5000")
 
