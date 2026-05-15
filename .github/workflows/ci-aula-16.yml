@@ -26,6 +26,7 @@ jobs:
 
       - name: Instalar dependencias
         run: |
+          working-directory: aula-16
           pip install -r requirements.txt
           
       - name: Rodar black
