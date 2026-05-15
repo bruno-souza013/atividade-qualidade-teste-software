@@ -8,7 +8,6 @@ import requests
 
 
 def text_in_list(driver, text):
-    """Verifica se 'text' aparece em algum <li>, ignorando StaleElementReferenceException."""
     try:
         items = driver.find_elements(By.TAG_NAME, "li")
         return any(text in li.text for li in items)
