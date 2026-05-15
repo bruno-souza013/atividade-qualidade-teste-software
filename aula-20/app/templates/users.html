@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+</head>
+
+<body>
+
+    <h1>Cadastro de Usuários</h1>
+
+    <input
+        type="text"
+        id="name"
+        placeholder="Digite o nome"
+    >
+
+    <button id="submit">
+        Cadastrar
+    </button>
+
+    <ul id="users"></ul>
+
+    <script>
+        async function loadUsers() {
+            const response = await fetch("/users");
+            const users = await response.json();
+
+            const list = document.getElementById("users");
+
+            list.innerHTML = "";
+
+            users.forEach(user => {
+                const li = document.createElement("li");
+
+                li.innerText = user.name;
+
+                list.appendChild(li);
+            });
+        }
+
+        document
+            .getElementById("submit")
+            .addEventListener("click", async () => {
+
+                const name = document.getElementById("name").value;
+
+                await fetch("/users", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ name })
+                });
+
+                loadUsers();
+            });
+
+        loadUsers();
+    </script>
+
+</body>
+
+</html>
